@@ -1,8 +1,22 @@
 import { UserModel } from "@/models/users";
-import { AuthOptions } from "next-auth";
+
+import { AuthOptions,ISODateString,User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GithubProvider from 'next-auth/providers/github'
 
+export type CustomSession={
+  user?:Customuser,
+  expires:ISODateString
+
+
+}
+export type Customuser={
+  id?: string | null;
+  name?: string | null;
+  email?: string | null;
+  role?: string | null;
+}
 require('../../../../database/config')
 export const Authoptions:AuthOptions={
     pages:{
@@ -19,13 +33,27 @@ export const Authoptions:AuthOptions={
             console.log("user found")
             return true;
           }
-          await UserModel.create({name:user?.name,email:user?.email})
+          await UserModel.create({name:user?.name,email:user?.email,role:"user"})
           console.log("user created")
           return true; 
         } catch (error) {
           console.error("Error in signIn callback:", error);
           return false; 
         }
+      },
+      async jwt({user,token}:{token:JWT,user:Customuser}) {
+        if(user){
+          token.user={
+            ...user,
+            role:user.role || "user"
+          };
+          console.log("JWT Token User:", token.user);
+        }
+          return token;
+      },
+      async session({session,token}:{session:CustomSession,token:JWT,user:User}) {
+        session.user = token.user as Customuser
+          return session
       },
     },
     providers:[
