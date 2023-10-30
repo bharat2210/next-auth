@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import alert from "@/utils/alert";
+import Link from "next/link";
 export default function Login() {
   const [logState, setlogState] = useState({
     name: "",
@@ -13,17 +15,19 @@ export default function Login() {
     e.preventDefault();
     await axios.post("/api/login", logState).then((res) => {
       if (res.status === 200) {
+        alert("Login successful","success")
         signIn("credentials", {
           email: logState.email,
           password: logState.password,
           callbackUrl: "/",
           redirect: true,
         });
+
       } else {
-        alert("Error");
+        alert("Login failed","error");
       }
     });
-    console.log("logState", logState);
+    // console.log("logState", logState);
   };
 
   const githubsign = () => {
@@ -55,13 +59,13 @@ export default function Login() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
             Don&apos;t have an account?{" "}
-            <a
-              href="#"
+            <Link
+              href="/register"
               title=""
               className="font-semibold text-black transition-all duration-200 hover:underline"
             >
               Create a free account
-            </a>
+            </Link>
           </p>
           <form onSubmit={handlesubmitlogin} className="mt-8">
             <div className="space-y-5">

@@ -3,8 +3,12 @@ import React, { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import axios from 'axios'
 import {signIn}  from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import alert from '@/utils/alert'
+import Link from 'next/link'
 
 export default function Register() {
+  const router=useRouter()
   const [authState,setauthState]=useState({
     name:"",
     email:"",
@@ -14,9 +18,10 @@ export default function Register() {
      e.preventDefault();
     await axios.post("/api/register",authState).then((res)=>{
      if(res.status===200){
-      alert("Success")
+      router.push('/')
+    alert("Regsitered successfully","success")
      }else{
-      alert("Error")
+      alert("Something went wrong",'error')
      }
      })
      console.log("authState",authState)
@@ -44,13 +49,13 @@ export default function Register() {
           </h2>
           <p className="mt-2 text-center text-base text-gray-600">
             Already have an account?{' '}
-            <a
-              href="#"
+            <Link
+              href="/login"
               title=""
               className="font-medium text-black transition-all duration-200 hover:underline"
             >
               Sign In
-            </a>
+            </Link>
           </p>
           <form onSubmit={handlesubmit} className="mt-8">
             <div className="space-y-5">

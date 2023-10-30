@@ -1,3 +1,15 @@
+.themecolor{
+  color: rgb(164,55,219);
+}
+.themebackground{
+ background-color:rgb(164,55,219) ; 
+}
+/* ---------------------------------------------------Header css start----------------------------------------- */
+.searchbar{
+  border: 2px solid rgb(164,55,219);
+}
+/* ---------------------------------------------------Header css end----------------------------------------- */
+
 /*---------------------------------------------------- banner css start---------------------------------- */
 /* The hero image */
 .hero-image {
@@ -23,5 +35,20 @@
     transform: translate(-50%, -50%);
     color: white;
   }
+  .start{
+    border: 2px solid rgb(164,55,219);
+  }
+  .start:hover{
+    border: none;
+    background-color: rgb(164,55,219);
+    color: white;
+    transition: .3s;
+  }
 
 /*---------------------------------------------------- banner css end---------------------------------- */
+/*------------------------------------------------ Features css start------------------------------ */
+/* .widget{
+  background-color: rgb(164,55,219);
+  color: white;
+} */
+/*------------------------------------------------ Features css end------------------------------ */
